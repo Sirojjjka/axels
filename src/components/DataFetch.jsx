@@ -17,6 +17,8 @@ response => {
   return(
 <div className='main'>
   <h2>List of employees:</h2>
+   <input type="text" placeholder='Input'/>
+  <button>Search</button>
   <ul>
   {employess.map(employess =>(<li key = {employess.id}>{employess}</li>))}
   </ul>
