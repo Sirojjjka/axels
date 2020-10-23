@@ -1,32 +1,67 @@
-import Axios from 'axios';
-import React, {useState, useEffect} from 'react';
+import Axios from "axios";
+import React, { useState, useEffect } from "react";
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import styled from "styled-components";
+import Employees from "./Employees";
 
-let DataFetch = () =>{
+let DataFetch = () => {
+  const [employees, setEmployees] = useState([]);
+  const [search, setSearch] = useState("");
+  const [filteredEmployees, setFilteredEmployees] = useState([]);
 
- const [employess,setEmployees] = useState([]);
+  useEffect(() => {
+    Axios.get(`http://api.additivasia.io/api/v1/assignment/employees`).then(
+      (response) => {
+        setEmployees(response.data);
+      }
+    );
+  });
 
- useEffect(()=>{
-   Axios.get('http://api.additivasia.io/api/v1/assignment/employees').then(
-response => {
-  console.log(response.data)
-  setEmployees(response.data)
-}     
-   )
- })
+  let FilterFunction = () => {
+    setFilteredEmployees(
+      employees.filter((employee) => {
+        return employee.toLowerCase().includes(search.toLowerCase());
+      })
+    );
+  };
 
-  return(
-<div className='main'>
-  <h2>List of employees:</h2>
-   <input type="text" placeholder='Input'/>
-  <button>Search</button>
-  <ul>
-  {employess.map(employess =>(<li key = {employess.id}>{employess}</li>))}
-  </ul>
+  return (
+    <Container pt-3>
+      <div className="row">
+        <div className="col">
+          <h2>List of employees</h2>
+          <Employees
+            filteredEmployees={filteredEmployees}
+            employees={employees}
+          />
+        </div>
+        <div className="col  ">
+          <h4>Search by name</h4>
+          <div className="form-group">
+            <Input
+              type="text"
+              className="form-control"
+              id="text"
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <Button
+              onClick={() => {
+                FilterFunction(search);
+              }}
+            >
+              Search
+            </Button>
+          </div>
+        </div>
+      </div>
+    </Container>
+  );
+};
 
-
-
-</div>
-  )
-}
+const Input = styled.input`
+  width: 200px;
+  margin-bottom:20px;
+`;
 
 export default DataFetch;
