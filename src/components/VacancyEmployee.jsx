@@ -26,7 +26,8 @@ export default (aboutProps) => {
   console.log(second);
 if(names.length>0){
   return (
-    <div className="container">
+    <MainContainer>
+      <Container>
     <Wrapper>
       <Png><img src="https://hubstaff-production.s3.amazonaws.com/organization/logos/2fb51f59330789bce6e644c1cfb8c152.png" alt=""/></Png>
         <Title><h3> {name}</h3>
@@ -36,11 +37,25 @@ if(names.length>0){
     <Second>
       <NavLink to="/"><Button>Go back</Button></NavLink>
       </Second>
-    </div>
+      </Container>
+    </MainContainer>
   );
 } else {return(<Spinner animation="border" role="status">
 <span className="sr-only">Loading...</span>
 </Spinner>)};}
+
+
+const MainContainer = styled.div`
+position:relative;
+`;
+
+const Container = styled.div`
+position: absolute;
+margin-top: 20%;
+left: 50%;
+margin-right: -50%;
+transform: translate(-50%, -50%)
+`;
 
 const Wrapper = styled.div`
 position:relative;
@@ -56,9 +71,9 @@ const Png = styled.div`
 border-radius:55%;
 position: absolute;
 top:20%;
- left: 50%;
- margin-right: -50%;
- transform: translate(-50%, -50%)
+left: 50%;
+margin-right: -50%;
+transform: translate(-50%, -50%)
 `;
 
 
@@ -69,5 +84,8 @@ align-item:center;
 `;
 
 const Second = styled.div`
+display:flex;
+align-items:center;
+justify-content:center;
 margin-top:5px;
 `;
